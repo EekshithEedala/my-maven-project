@@ -1,29 +1,19 @@
 pipeline {
     agent any
-    tools{
-        maven 'Maven-3.9.16'
-    }
     stages {
-        stage('git repo & clean') {
+        stage('Checkout') {
             steps {
-                //bat "rmdir  /s /q mavenjava"
-                bat "git clone provide your github link"
-                bat "mvn clean -f mavenjava"
+                checkout scm
             }
         }
-        stage('install') {
+        stage('Build') {
             steps {
-                bat "mvn install -f mavenjava"
+                bat 'mvn clean package'
             }
         }
-        stage('test') {
+        stage('Test') {
             steps {
-                bat "mvn test -f mavenjava"
-            }
-        }
-        stage('package') {
-            steps {
-                bat "mvn package -f mavenjava"
+                bat 'mvn test'
             }
         }
     }
